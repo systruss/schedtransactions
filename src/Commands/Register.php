@@ -83,9 +83,11 @@ class Register extends Command
 			// Output one line until end-of-file
 			while(!feof($walletsfile)) {
 				$wallet = fgets($walletsfile);
-				echo "-----------   $wallet";
-				list($network,$passphrase) = explode('-',$wallet);
-				echo "network = $network \n";
+				if (!empty($wallet)) {
+					echo "-----------   $wallet";
+					list($network,$passphrase) = explode('-',$wallet);
+					echo "network = $network \n";
+				}
 			}
 			fclose($walletsfile);
 		}
