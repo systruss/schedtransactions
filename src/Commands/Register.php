@@ -82,7 +82,9 @@ class Register extends Command
 			$walletsfile = fopen($filename, "r") or die("Unable to open file!");
 			// Output one line until end-of-file
 			while(!feof($walletsfile)) {
-				echo fgets($walletsfile) . "<br>";
+				$wallet = fgets($walletsfile);
+				list($network,$passphrase) = explode('-',$wallet);
+				echo "network = $network \n";
 			}
 			fclose($walletsfile);
 		}
