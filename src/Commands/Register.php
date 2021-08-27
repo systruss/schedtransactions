@@ -79,6 +79,12 @@ class Register extends Command
 			//register delagates from file
 			$filename=$this->option('filename');
 			echo "reguster delegates from file $filename \n";
+			$walletsfile = fopen($filename, "r") or die("Unable to open file!");
+			// Output one line until end-of-file
+			while(!feof($walletsfile)) {
+				echo fgets($walletsfile) . "<br>";
+			}
+			fclose($walletsfile);
 		}
 		while (1 == 1) {
 			$network = $this->ask('select network [ (1) infi or (2) Hedge]: ');
