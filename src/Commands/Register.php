@@ -89,8 +89,17 @@ class Register extends Command
 					$network = trim($net_value);
 					$passphrase = trim($pass_value);
 					echo "network = $network      passphrase = $passphrase \n";
+					//register delegate 
+					$delegate = new Delegate();
+					$success = $delegate->register($passphrase,$network);
+					
+					if (!$success) 
+					{
+						$this->info("error while registering wallet");
+						return false;
+					}
 				}
-			}
+			}	
 			fclose($walletsfile);
 		}
 		while (1 == 1) {

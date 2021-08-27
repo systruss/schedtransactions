@@ -58,7 +58,6 @@ class Delegate
 		$main_net = MainnetExt::new();
 		$this->address = Address::fromPassphrase($this->passphrase,$main_net);
 		$valid = false;
-
 		
 		$valid = $this->checkDelegateValidity();
 		if ($valid) 
@@ -72,61 +71,63 @@ class Delegate
 				echo "\n table delegate_dbs does not exist, run php artisan migrate \n";
 				return;
 			}
-			//check if there is a delegate entry in delegate table
+			//check if there is a wallet entry in wallet table
 			$delegate = DelegateDb::all();
 			if (!$delegate->isEmpty()) {
-				//delegate exist
-				echo "\n There is already a delegate registered! \n";
-				return;
-			} else {
-				//create delegate
-				try {
-					$delegate = DelegateDb::create([
-						'address' => $this->address,
-						'passphrase' => $passphrase,
-						'network' => $network,
-						'sched_freq' => 24,
-						'sched_active' => true,
-					]);
-					$registered = succeed;
-					echo "\n Delegate registered successfully \n";
-				} catch (QueryException $e) {
-					echo "\n error : \n";
-					$registered = failed; 
-					return false;
-				}
+				//check if wallet exist
+				$net_current = DelegateDb::table('delegate_dbs')->where('passphrase',$passphrase)->value('network');
+				if ($net_current){
+					echo "\n There is already a wallet registered with that passphrase $passphrase with network $net_current ! \n";
+					return;
+				} 
 			}
-			return true;
-		} else {
-				echo "\n delegate not valid \n";
+			//add wallet
+			try {
+				$delegate = DelegateDb::create([
+					'address' => $this->address,
+					'passphrase' => $passphrase,
+					'network' => $network,
+					'sched_freq' => 24,
+					'sched_active' => true,
+				]);
+				$registered = succeed;
+				echo "\n Delegate registered successfully \n";
+			} catch (QueryException $e) {
+				echo "\n error : \n";
+				$registered = failed; 
 				return false;
+			}
+		return true;
+		} else {
+			echo "\n delegate not valid \n";
+			return false;
 		}
 	}
 
 
-	public function initFromDb()
-	{
-		//get the registered sender address,network and passphrase 
-		$response = [];
-		if (!Schema::hasTable('delegate_dbs')) {
-			echo "\n table delegate does not exist, did you run php artisan migrate ? \n";
-			return;
-		}
-		$delegate = DelegateDb::first();
-		if ($delegate) {
-			//sender exist
-			echo "\n delegate exist \n";
-			$this->network = $delegate->network;
-			$this->passphrase = $delegate->passphrase;			
-			$this->address = $delegate->address;
-			$this->sched_active = $delegate->sched_active;
-			$this->sched_freq = $delegate->sched_freq;
-		} else {
-			//no delegate
-			echo "\n there is no delegate defined, did you run php artisan crypto:register ? \n";
-			return failed;
+		public function initFromDb()
+		{
+			//get the registered sender address,network and passphrase 
+			$response = [];
+			if (!Schema::hasTable('delegate_dbs')) {
+				echo "\n table delegate does not exist, did you run php artisan migrate ? \n";
+				return;
+			}
+			$delegate = DelegateDb::first();
+			if ($delegate) {
+				//sender exist
+				echo "\n delegate exist \n";
+				$this->network = $delegate->network;
+				$this->passphrase = $delegate->passphrase;			
+				$this->address = $delegate->address;
+				$this->sched_active = $delegate->sched_active;
+				$this->sched_freq = $delegate->sched_freq;
+			} else {
+				//no delegate
+				echo "\n there is no delegate defined, did you run php artisan crypto:register ? \n";
+				return failed;
 
-		}
+			}
 		return true;
 	}
 

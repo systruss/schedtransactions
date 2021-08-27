@@ -101,15 +101,11 @@ class Admin extends Command
                 break;
             case "show_delegate":
                 if (Schema::hasTable('delegate_dbs')) {
-                    $delegate = DelegateDb::first();
-                    if ($delegate) {
-                        echo "\n network : $delegate->network \n";
-                        echo "\n address : $delegate->address \n";
-                        echo "\n passphrase : $delegate->passphrase \n";
-                        echo "\n sched_active : $delegate->sched_active \n";
-                        echo "\n sched_freq : $delegate->sched_freq \n";
+                    $wallets = DelegateDb::table('delegateDb')->get();
+                    if ($wallets) {
+                        echo "$wallets \n";
                     } else {
-                        $this->info("no delegate in DB");                        
+                        $this->info("no wallet in DB");                        
                     }
                 } else {
                     $this->info("no delegate table exist");
