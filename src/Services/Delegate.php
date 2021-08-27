@@ -75,7 +75,7 @@ class Delegate
 			$delegate = DelegateDb::all();
 			if (!$delegate->isEmpty()) {
 				//check if wallet exist
-				$net_current = DelegateDb::table('delegate_dbs')->where('passphrase',$passphrase)->value('network');
+				$net_current = DelegateDb::where('passphrase',$passphrase)->value('network');
 				if ($net_current){
 					echo "\n There is already a wallet registered with that passphrase $passphrase with network $net_current ! \n";
 					return;

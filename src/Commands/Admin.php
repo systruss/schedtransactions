@@ -101,9 +101,10 @@ class Admin extends Command
                 break;
             case "show_delegate":
                 if (Schema::hasTable('delegate_dbs')) {
-                    $wallets = DelegateDb::table('delegateDb')->get();
-                    if ($wallets) {
-                        echo "$wallets \n";
+                    if (DelegateDb::count() > 0) {
+                        foreach (DelegateDb::all() as $wallet) {
+                            echo "$wallet \n";
+                        }
                     } else {
                         $this->info("no wallet in DB");                        
                     }
