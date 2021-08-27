@@ -103,7 +103,7 @@ class Admin extends Command
                 if (Schema::hasTable('delegate_dbs')) {
                     if (DelegateDb::count() > 0) {
                         foreach (DelegateDb::all() as $wallet) {
-                            echo "\n----------------------------------------- \n"
+                            echo "\n----------------------------------------- \n";
                             echo " id = $wallet->id \n";
                             echo " address = $wallet->address \n";
                             echo " passphrase = $wallet->passphrase \n";
