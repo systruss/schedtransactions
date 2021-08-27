@@ -75,7 +75,7 @@ class Register extends Command
 		// user select netowrk (infi or hedge)
 		//
 		$quit=1;
-		if ($this->option('--filename')) {
+		if ($this->argument('filename')) {
 			//register delagates from file
 			echo "reguster delegates from file $filename \n";
 		}
