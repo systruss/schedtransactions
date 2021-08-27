@@ -22,7 +22,7 @@ class Register extends Command
      *
      * @var string
      */
-    protected $signature = 'crypto:register {--filename?}';
+    protected $signature = 'crypto:register {--filename=?}';
 
     /**
      * The console command description.
@@ -75,7 +75,7 @@ class Register extends Command
 		// user select netowrk (infi or hedge)
 		//
 		$quit=1;
-		if ($this->argument('filename')) {
+		if ($this->option('--filename')) {
 			//register delagates from file
 			$filename=$this->option('--filename');
 			echo "reguster delegates from file $filename \n";
