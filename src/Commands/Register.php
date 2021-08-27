@@ -77,6 +77,7 @@ class Register extends Command
 		$quit=1;
 		if ($this->argument('filename')) {
 			//register delagates from file
+			$filename=$this->argument('filename');
 			echo "reguster delegates from file $filename \n";
 		}
 		while (1 == 1) {
