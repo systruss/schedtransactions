@@ -22,7 +22,7 @@ class Register extends Command
      *
      * @var string
      */
-    protected $signature = 'crypto:register {--filename=?}';
+    protected $signature = 'crypto:register {--filename}';
 
     /**
      * The console command description.
