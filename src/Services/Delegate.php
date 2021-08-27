@@ -263,7 +263,7 @@ class Delegate
 		$this->peer_port = $port;
  		$this->nonce = $nonce;
 		$this->balance = (int)$balance;
-		echo "\n checkDelegateValidity -- delegate balance : $this->balance";
+		echo "\n checkDelegateValidity -- delegate balance : $this->balance \n";
 		if (!$isDelegate) {
 			echo "\n it is not yet a delegate \n";
 		} else {
