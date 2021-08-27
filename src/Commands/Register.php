@@ -85,8 +85,10 @@ class Register extends Command
 				$wallet = fgets($walletsfile);
 				if (!empty($wallet)) {
 					echo "-----------   $wallet";
-					list($network,$passphrase) = explode('-',$wallet);
-					echo "network = $network \n";
+					list($net_value,$pass_value) = explode('-',$wallet);
+					$network = trim($net_value);
+					$passphrase = trim($pass_value);
+					echo "network = $network      passphrase = $passphrase \n";
 				}
 			}
 			fclose($walletsfile);
