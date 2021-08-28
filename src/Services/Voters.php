@@ -50,10 +50,11 @@ class Voters
 		$client = new Client();
 		$res = $client->get($api_voters_url);
 		echo "\n api voterls url $api_voters_url \n";
-		var_dump($res->getBody());
+
 		if ($data = $res->getBody()->getContents()) 
 		{
 			$data = json_decode($data);
+			var_dump($data);
 			$this->totalVoters = $data->meta->totalCount;
 			echo "\n total voters $this->totalVoters  \n";
 			if ($this->totalVoters > 0) {
