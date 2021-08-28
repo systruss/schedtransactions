@@ -49,12 +49,11 @@ class Voters
 
 		$client = new Client();
 		$res = $client->get($api_voters_url);
-		echo "\n api voterls url $api_voters_url \n";
 
 		if ($data = $res->getBody()->getContents()) 
 		{
 			$data = json_decode($data);
-			var_dump($data);
+	
 			$this->totalVoters = $data->meta->totalCount;
 			echo "\n total voters $this->totalVoters  \n";
 			if ($this->totalVoters > 0) {
@@ -66,7 +65,7 @@ class Voters
 					} 
 
 					$voter_total_balance = $voter_balance + $lockedBalance;
-
+					echo "\n delegateAddress $delegateAddress  $voter->address   -  $voter_total_balance - $minVoterBalance \n";
 					if (($delegateAddress != $voter->address) && ($voter_total_balance >= $minVoterBalance)) 
 					{
 						$this->eligibleVoters[] = array(
