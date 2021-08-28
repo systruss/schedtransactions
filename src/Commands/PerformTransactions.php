@@ -19,6 +19,8 @@ use Systruss\SchedTransactions\Services\Delegate;
 use Systruss\SchedTransactions\Services\Beneficary;
 use Systruss\SchedTransactions\Services\Transactions;
 use Systruss\SchedTransactions\Services\SchedTransaction;
+use Illuminate\Support\Facades\Schema;
+use Systruss\SchedTransactions\Models\DelegateDb;
 use Systruss\SchedTransactions\Models\CryptoLog;
 
 const SCHED_NB_HOURS = 6;
