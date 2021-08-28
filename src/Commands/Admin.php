@@ -171,7 +171,7 @@ class Admin extends Command
                     $wallet = DelegateDb::where('id',$wallet_id)->get();
                     if ($wallet) {
                         // get current schedule frequency 
-                        $current_sched_freq = $wallet[0]->sched_freq;
+                        $current_sched_freq = $wallet[1]->sched_freq;
                         $this->info("current schedule frequency : " . $current_sched_freq);
                         $quit=1;
                         while (1 == 1) {
