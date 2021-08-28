@@ -49,6 +49,7 @@ class Voters
 
 		$client = new Client();
 		$res = $client->get($api_voters_url);
+		var_dump($res);
 		if ($data = $res->getBody()->getContents()) 
 		{
 			$data = json_decode($data);
