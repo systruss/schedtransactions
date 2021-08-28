@@ -97,8 +97,8 @@ class Transactions
 
 	public function buildTransactions(Voters $voters, Delegate $delegate, Beneficary $beneficary)
 	{	
-		
-		echo "\n ------------------- Building transactions  ----------- \n";
+		echo date('d-m-y h:i:s');
+		echo " : ($delegate->address) Building transactions  \n";
         $valid = $delegate->checkDelegateEligibility();
 		if ($valid)
 		{
@@ -106,7 +106,8 @@ class Transactions
 
             // get fee
             $totalFee = $this->getFee($delegate->network, $voters->totalVoters);
-			echo "\n totalFee   = $totalFee \n";
+			echo date('d-m-y h:i:s');
+			echo " : ($delegate->address) totalFee   = $totalFee \n";
 			if ($totalFee > $delegate->balance) {
 				$this->buildSucceed = false;
 				$this->errMesg = "buildTransactions : warning : Fee greater than delegate available balance";
@@ -124,26 +125,33 @@ class Transactions
 									
             // calculate voters amount
 			// to be distributed = balance - (total fee + beneficary)
-			echo "\n Delegate balance = $delegate->balance \n";
-			echo "\n Beneficiary Mintain Mimimum Balance = $beneficary->maintainMinimumBalance \n";
-			echo "\n beneficary rate = $this->rate \n";
+			echo date('d-m-y h:i:s');
+			echo " : ($delegate->address) Delegate balance = $delegate->balance \n";
+			echo date('d-m-y h:i:s');
+			echo " : ($delegate->address) Beneficiary Mintain Mimimum Balance = $beneficary->maintainMinimumBalance \n";
+			echo date('d-m-y h:i:s');
+			echo " : ($delegate->address) beneficary rate = $this->rate \n";
 			if ($delegate->balance > $beneficary->maintainMinimumBalance ) {
 				if ($delegate->balance > $totalFee ) {
 					$remaining_balance = $delegate->balance - ($totalFee + $beneficary->maintainMinimumBalance);
 					// Beneficiary Amount
-					$beneficaryAmount = ($remaining_balance * $beneficary->rate)/100; 
-					echo "\n beneficiaryAmount = $beneficaryAmount \n";
+					$beneficaryAmount = ($remaining_balance * $beneficary->rate)/100;
+					echo date('d-m-y h:i:s');
+					echo " : ($delegate->address) beneficiaryAmount = $beneficaryAmount \n";
 					// Balance to be distributed to voters
 					$amountToBeDistributed = $remaining_balance - $beneficaryAmount;
 					$this->amountToBeDistributed = $amountToBeDistributed;
-					echo "\n amount to be distributed : $amountToBeDistributed";
+					echo date('d-m-y h:i:s');
+					echo " : ($delegate->address) amount to be distributed : $amountToBeDistributed";
 				} else {
-					echo "\n delegate balance less than fee, trying at next iteration in 1 hour \n";
+					echo date('d-m-y h:i:s');
+					echo " : ($delegate->address) delegate balance less than fee, trying at next iteration in 1 hour \n";
 					$this->buildSucceed = false;
 					return $this;
 				}
 			} else {
-				echo "\n (error) maintain minimum balance greater than delegate balance \n";
+				echo date('d-m-y h:i:s');
+				echo " : ($delegate->address) (error) maintain minimum balance greater than delegate balance \n";
 				$this->buildSucceed = false;
 				return $this;
 			}

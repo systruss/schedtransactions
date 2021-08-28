@@ -77,7 +77,8 @@ class Delegate
 				//check if wallet exist
 				$net_current = DelegateDb::where('passphrase',$passphrase)->value('network');
 				if ($net_current){
-					echo "\n There is already a wallet registered with that passphrase $passphrase with network $net_current ! \n";
+					echo date('d-m-y h:i:s');
+					echo " : ($this->delegateAddress) There is already a wallet registered with that passphrase $passphrase with network $net_current ! \n";
 					return;
 				} 
 			}
@@ -91,7 +92,8 @@ class Delegate
 					'sched_active' => true,
 				]);
 				$registered = succeed;
-				echo "\n Delegate registered successfully \n";
+				echo date('d-m-y h:i:s');
+				echo " : ($this->delegateAddress) Delegate registered successfully \n";
 			} catch (QueryException $e) {
 				echo "\n error : \n";
 				$registered = failed; 
@@ -99,7 +101,8 @@ class Delegate
 			}
 		return true;
 		} else {
-			echo "\n delegate not valid \n";
+			echo date('d-m-y h:i:s');
+			echo " : ($this->delegateAddress) delegate not valid \n";
 			return false;
 		}
 	}
@@ -115,7 +118,8 @@ class Delegate
 			$this->sched_freq = $wallet->sched_freq;
 		} else {
 			//no delegate
-			echo "\n the wallet $wallet_id does not exist \n";
+			echo date('d-m-y h:i:s');
+			echo " : ($this->delegateAddress) the wallet $wallet_id does not exist \n";
 			return failed;
 		}
 	return true;
@@ -193,7 +197,8 @@ class Delegate
 		// 
 		$peers = $this->getPeers($this->network);
 		if (!$peers) {
-			echo "\n checkDelegateValidity : no peers found \n";
+			echo date('d-m-y h:i:s');
+			echo "  : ($this->delegateAddress) checkDelegateValidity : no peers found \n";
 			return failed;
 		}
 
@@ -229,6 +234,7 @@ class Delegate
 					if ($isDelegate == 1) {
 						if ($isResigned == 0) {
 							$valid = true;
+							echo date('d-m-y h:i:s');
 							echo "\n isDelegate = $isDelegate   -- isResigned = $isResigned \n";
 							break;
 						}
@@ -252,15 +258,19 @@ class Delegate
 		$this->peer_port = $port;
  		$this->nonce = $nonce;
 		$this->balance = (int)$balance;
-		echo "\n checkDelegateValidity -- delegate balance : $this->balance \n";
+		echo date('d-m-y h:i:s'); 
+		echo " : ($this->delegateAddress) checkDelegateValidity -- delegate balance : $this->balance \n";
 		if (!$isDelegate) {
-			echo "\n it is not yet a delegate \n";
+			echo date('d-m-y h:i:s'); 
+			echo " : ($this->delegateAddress) it is not yet a delegate \n";
 		} else {
 			if ($isResigned) {
-				echo "\n delegate  is Resigned \n";
+				echo date('d-m-y h:i:s'); 
+				echo " : ($this->delegateAddress) delegate  is Resigned \n";
 			}
 		}
-		echo "api url : $api_url \n"; 
+		echo date('d-m-y h:i:s'); 
+		echo " : ($this->delegateAddress) api url : $api_url \n"; 
 		
 		return $valid;
 	}
@@ -271,9 +281,11 @@ class Delegate
 		$api_delegates_url = api_delegates_edge_url;
 
 		// check if delegate balance is grater than the minimum required
-		echo "\n delegate balance : $this->balance \n";
+		echo date('d-m-y h:i:s'); 
+		echo " : ($this->delegateAddress) delegate balance : $this->balance \n";
 		if ($this->balance < MinDelegateBalance) {
-			echo "\n insufficient balance \n";
+			echo date('d-m-y h:i:s'); 
+			echo " : ($this->delegateAddress) insufficient balance \n";
 			return false;
 		}
 		// get list of delegate
@@ -281,7 +293,7 @@ class Delegate
 
 
 		if ($delegate_network == "infi") {
-			echo "\n delegate network : $delegate_network \n";
+			echo " : ($this->delegateAddress) delegate network : $delegate_network \n";
 			$api_delegates_url = api_delegates_infi_url;
 		}
 
@@ -302,7 +314,7 @@ class Delegate
 					}
 				}
 				if ($found) {
-					echo "\n delegate rank : $this->rank \n";					
+					echo " : ($this->delegateAddress) delegate rank : $this->rank \n";					
 					if ($this->rank >= MinDelegateRank && $this->rank <= MaxDelegateRank){
 						return true;
 					}else{
