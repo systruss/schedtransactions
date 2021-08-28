@@ -165,13 +165,13 @@ class Admin extends Command
                 }                
                 break;
             case "change_sched":
-                $wallet_id = $this->ask('provide wallet id : ');
+                $wallet_id = $this->ask('provide wallet id ');
 			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $wallet = DelegateDb::where('id',$wallet_id);
+                    $wallet = DelegateDb::where('id',$wallet_id)->get();
                     if ($wallet) {
                         // get current schedule frequency 
-                        $current_sched_freq = $wallet->sched_freq;
+                        $current_sched_freq = $wallet[0]->sched_freq;
                         $this->info("current schedule frequency : " . $current_sched_freq);
                         $quit=1;
                         while (1 == 1) {
