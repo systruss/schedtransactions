@@ -56,7 +56,7 @@ class Voters
 	
 			$this->totalVoters = $data->meta->totalCount;
 			echo date('d-m-y h:i:s'); 
-			echo "\ : ($delegateAddress) total voters $this->totalVoters  \n";
+			echo " : ($delegateAddress) total voters $this->totalVoters  \n";
 			if ($this->totalVoters > 0) {
 				$list_voters = $data->data;
 				foreach ($list_voters as $voter) {

@@ -76,6 +76,8 @@ class PerformTransactions extends Command
         }
         $wallets = DelegateDb::all();
         foreach($wallets as $wallet) {
+            echo date('d-m-y h:i:s');
+            $this->info(" : ($wallet) ---------------------------------------");
             $success = $delegate->init($wallet);
             
             if (!$success) 
