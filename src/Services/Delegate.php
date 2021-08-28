@@ -104,33 +104,22 @@ class Delegate
 		}
 	}
 
-
-		public function initFromDb()
-		{
-			//get the registered sender address,network and passphrase 
-			$response = [];
-			if (!Schema::hasTable('delegate_dbs')) {
-				echo "\n table delegate does not exist, did you run php artisan migrate ? \n";
-				return;
-			}
-			$delegate = DelegateDb::first();
-			if ($delegate) {
-				//sender exist
-				echo "\n delegate exist \n";
-				$this->network = $delegate->network;
-				$this->passphrase = $delegate->passphrase;			
-				$this->address = $delegate->address;
-				$this->sched_active = $delegate->sched_active;
-				$this->sched_freq = $delegate->sched_freq;
-			} else {
-				//no delegate
-				echo "\n there is no delegate defined, did you run php artisan crypto:register ? \n";
-				return failed;
-
-			}
-		return true;
+	public function init($wallet)
+	{
+		//get the registered sender address,network and passphrase 
+		if ($wallet) {
+			$this->network = $wallet->network;
+			$this->passphrase = $wallet->passphrase;			
+			$this->address = $wallet->address;
+			$this->sched_active = $wallet->sched_active;
+			$this->sched_freq = $wallet->sched_freq;
+		} else {
+			//no delegate
+			echo "\n the wallet $wallet_id does not exist \n";
+			return failed;
+		}
+	return true;
 	}
-
 
 	public function getPeers($network)
 	{
