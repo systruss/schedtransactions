@@ -134,10 +134,10 @@ class Admin extends Command
                 break;
             case "enable_sched":
                 //provide wallet_id
-                $wallet_id = $this->ask('provide wallet id : ');
+                $wallet_id = $this->ask('provide wallet id ');
 			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $wallet = DelegateDb::where('id',$wallet_id)->get();
+                    $wallet = DelegateDb::where('id',$wallet_id);
                     if ($wallet) {
                         $wallet->sched_active = true;
                         $wallet->save();
@@ -153,7 +153,7 @@ class Admin extends Command
                 $wallet_id = $this->ask('provide wallet id : ');
 			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $wallet = DelegateDb::where('id',$wallet_id)->get();
+                    $wallet = DelegateDb::where('id',$wallet_id);
                     if ($wallet) {
                         $wallet->sched_active = false;
                         $w->save();
@@ -168,7 +168,7 @@ class Admin extends Command
                 $wallet_id = $this->ask('provide wallet id : ');
 			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $wallet = DelegateDb::where('id',$wallet_id)->get();
+                    $wallet = DelegateDb::where('id',$wallet_id);
                     if ($wallet) {
                         // get current schedule frequency 
                         $current_sched_freq = $wallet->sched_freq;
