@@ -46,12 +46,12 @@ class Admin extends Command
         switch ($action) {
             case "delete_delegate":
                  //provide wallet_id
-                 $wallet_id = $this->ask('provide wallet id : ');
+                 $wallet_id = $this->ask('provide wallet id');
                  echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
                     $wallet = DelegateDb::where('wallet_id',$wallet_id);
                     if ($wallet) {
-                        $wallet->delete;
+                        $wallet->delete();
                         $this->info("wallet $wallet_id deleted"); 
                     } else {
                         $this->info("that wallet $wallet_id does not eist");                        
