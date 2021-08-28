@@ -102,6 +102,7 @@ class Admin extends Command
             case "show_delegate":
                 $num_record = 0;
                 $current_page = 0;
+                $page = 0;
                 if (Schema::hasTable('delegate_dbs')) {
                     if (DelegateDb::count() > 0) {
                         foreach (DelegateDb::all() as $wallet) {
@@ -116,7 +117,7 @@ class Admin extends Command
                             $page = $num_record % 5;
                             if ( $page > $current_page) {
                                 $current_page = $page;
-                                if (!$this->confirm('Do you wish to continue (no) to stop ?', true)) {
+                                if (!$this->confirm('Do you wish to continue ?', true)) {
                                     break;
                                 }
                             }
