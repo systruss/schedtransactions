@@ -79,14 +79,14 @@ class PerformTransactions extends Command
             
             if (!$success) 
             {
-                $this->info("Error initialising Delegate from DB ");
-                return false;
+                $this->info("Error initialising delegate with wallet $wallet->address from DB ");
+                continue;
             }
 
             // wallet exist, check if scheduler is active
             if (!$delegate->sched_active) {
-                echo "\n Scheduler is not active, activate scheduler using : php artisan crypto:admin enable_sched \n";
-                return false;
+                echo "\n Scheduler is not active for wallet $wallet->address, activate scheduler using : php artisan crypto:admin enable_sched \n";
+                continue;
             }
 
             // scheduler active , check counter last transactions
@@ -97,8 +97,8 @@ class PerformTransactions extends Command
                     $next_transactions =  $sched_freq - $latest_transactions->hourCount;
                     $latest_transactions->hourCount = $latest_transactions->hourCount + 1;
                     $latest_transactions->save();
-                    $this->info("Next Transactions in $next_transactions hours");
-                    return;
+                    $this->info("Next Transactions for wallet $wallet->address in $next_transactions hours");
+                    continue;
                 }
             }
  
@@ -109,18 +109,18 @@ class PerformTransactions extends Command
             $this->info(" ----------- checking delegate elegibility"); echo ("\n");
             $success = $delegate->checkDelegateEligibility();
             if (!$success) {
-                $this->info("(error) delegate is not yet eligble trying after an hour");
-                return false;
+                $this->info("the wallet $wallet->address ($wallet_id) is not yet eligble trying after an hour");
+                continue;
             }
-            $this->info("(success) delegate is eligible");
+            $this->info("(success) delegate with wallet $wallet->address is eligible");
 
             // get beneficary and amount = (delegate balance - totalFee) * 20%
             $this->info(" ---------------- get benificiary info");
             $beneficary = new Beneficary();
             $success = $beneficary->initBeneficary($delegate);
             if (!$success) {
-                $this->info("an issue happened with the beneficary");
-                return false; 
+                $this->info("(error) an issue happened with the beneficary for wallet $wallet->address");
+                continue; 
             }
             $requiredMinimumBalance = $beneficary->requiredMinimumBalance;
 
@@ -129,17 +129,17 @@ class PerformTransactions extends Command
             $voters = new voters();
             $voters = $voters->initEligibleVoters($delegate,$requiredMinimumBalance);
             if (!($voters->totalVoters > 0)) {
-                echo "\n there is no Eligible voters \n";
-                return false;
+                echo "\n there is no Eligible voters for wallet $wallet->address ($wallet->id) \n";
+                continue;
             }
-            $this->info("voters initialized successfully \n ");
+            $this->info("voters initialized successfully for $wallet->address ($wallet->id) \n ");
             $this->info("number of Elegible voters " . $voters->nbEligibleVoters);
     
             $transactions = new Transactions();
             $transactions = $transactions->buildTransactions($voters,$delegate,$beneficary);
             if (!$transactions->buildSucceed) {
-                $this->info("(error) " . $transactions->errMesg);
-                return false;
+                $this->info("(error) for wallet $wallet->address ($wallet->id)" . $transactions->errMesg);
+                continue;
             }
         
             //log transaction
@@ -155,7 +155,7 @@ class PerformTransactions extends Command
             $cryptoLog->hourCount = 0;
             $cryptoLog->succeed = false;
 
-            $this->info("transaction initialized successfully");
+            $this->info("transaction initialized successfully for wallet $wallet->address ($wallet->id)");
             $this->info("ready to run the folowing transactions ");
             // var_dump($transactions->transactions);
             echo json_encode($transactions->transactions, JSON_PRETTY_PRINT);
@@ -173,10 +173,10 @@ class PerformTransactions extends Command
                 echo "\n performing the transactions \n";
                 $success = $transactions->sendTransactions();
                 if (!$success) {
-                    echo "\n error while sending transactions \n";
-                    return 0;
+                    echo "\n error while sending transactions for wallet $wallet->address ($wallet->id) \n";
+                    continue;
                 }
-                $this->info("transactions performed successefully");
+                $this->info("transactions performed successefully for wallet $wallet->address ($wallet->id)");
                 echo json_encode($transactions->transactions );
             } 
         }
