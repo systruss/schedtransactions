@@ -65,7 +65,7 @@ class Voters
 					} 
 
 					$voter_total_balance = $voter_balance + $lockedBalance;
-					echo "\n delegateAddress $delegateAddress  $voter->address   -  $voter_total_balance - $minVoterBalance \n";
+	
 					if (($delegateAddress != $voter->address) && ($voter_total_balance >= $minVoterBalance)) 
 					{
 						$this->eligibleVoters[] = array(

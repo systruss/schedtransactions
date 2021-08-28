@@ -128,7 +128,7 @@ class PerformTransactions extends Command
             $this->info(" ---------- initialising voters");
             $voters = new voters();
             $voters = $voters->initEligibleVoters($delegate,$requiredMinimumBalance);
-            if (!($voters->totalVoters > 0)) {
+            if (!($voters->nbEligibleVoters > 0)) {
                 echo "\n there is no Eligible voters for wallet $wallet->address ($wallet->id) \n";
                 continue;
             }
