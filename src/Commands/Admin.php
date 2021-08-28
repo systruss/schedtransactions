@@ -100,17 +100,28 @@ class Admin extends Command
                 }                
                 break;
             case "show_delegate":
+                $num_record = 0;
+                $current_page = 0;
                 if (Schema::hasTable('delegate_dbs')) {
                     if (DelegateDb::count() > 0) {
                         foreach (DelegateDb::all() as $wallet) {
                             echo "\n----------------------------------------- \n";
-                            echo " id = $wallet->id \n";
+                            echo " wallet_id = $wallet->id \n";
                             echo " address = $wallet->address \n";
                             echo " passphrase = $wallet->passphrase \n";
                             echo " network = $wallet->network \n";
                             echo " sched_active = $wallet->sched_active \n";
                             echo " sched_freq = $wallet->sched_freq \n";
+                            $num_record++;
+                            $page = $num_record % 5;
+                            if ( $page > $current_page) {
+                                $current_page = $page;
+                                if (!$this->confirm('Do you wish to continue (no) to stop ?', true)) {
+                                    break;
+                                }
+                            }
                         }
+
                     } else {
                         $this->info("no wallet in DB");                        
                     }
