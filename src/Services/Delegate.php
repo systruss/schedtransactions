@@ -235,7 +235,7 @@ class Delegate
 						if ($isResigned == 0) {
 							$valid = true;
 							echo date('d-m-y h:i:s');
-							echo "\n isDelegate = $isDelegate   -- isResigned = $isResigned \n";
+							echo " : ($wallet_address) isDelegate = $isDelegate   -- isResigned = $isResigned \n";
 							break;
 						}
 					}
@@ -293,6 +293,7 @@ class Delegate
 
 
 		if ($delegate_network == "infi") {
+			echo date('d-m-y h:i:s'); 
 			echo " : ($this->delegateAddress) delegate network : $delegate_network \n";
 			$api_delegates_url = api_delegates_infi_url;
 		}
@@ -314,6 +315,7 @@ class Delegate
 					}
 				}
 				if ($found) {
+					echo date('d-m-y h:i:s'); 
 					echo " : ($this->delegateAddress) delegate rank : $this->rank \n";					
 					if ($this->rank >= MinDelegateRank && $this->rank <= MaxDelegateRank){
 						return true;

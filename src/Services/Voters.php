@@ -55,7 +55,8 @@ class Voters
 			$data = json_decode($data);
 	
 			$this->totalVoters = $data->meta->totalCount;
-			echo "\n total voters $this->totalVoters  \n";
+			echo date('d-m-y h:i:s'); 
+			echo "\ : ($delegateAddress) total voters $this->totalVoters  \n";
 			if ($this->totalVoters > 0) {
 				$list_voters = $data->data;
 				foreach ($list_voters as $voter) {
