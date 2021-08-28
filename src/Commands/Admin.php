@@ -45,14 +45,16 @@ class Admin extends Command
         //check is task scheduling active
         switch ($action) {
             case "delete_delegate":
-                $this->info("deleting delegate");
+                 //provide wallet_id
+                 $wallet_id = $this->ask('provide wallet id : ');
+                 echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $delegate = DelegateDb::first();
-                    if ($delegate) {
-                        DelegateDb::truncate();
-                        $this->info("delegate deleted"); 
+                    $wallet = DelegateDb::where('wallet_id',$wallet_id);
+                    if ($wallet) {
+                        $wallet->delete;
+                        $this->info("wallet $wallet_id deleted"); 
                     } else {
-                        $this->info("no delegate in DB");                        
+                        $this->info("that wallet $wallet_id does not eist");                        
                     }
                 } else {
                     $this->info("no delegate table exist");
@@ -131,37 +133,45 @@ class Admin extends Command
                 }                
                 break;
             case "enable_sched":
+                //provide wallet_id
+                $wallet_id = $this->ask('provide wallet id : ');
+			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $delegate = DelegateDb::first();
-                    if ($delegate) {
-                        $delegate->sched_active = true;
-                        $delegate->save();
+                    $wallet = DelegateDb::where('wallet_id',$wallet_id)->get();
+                    if ($wallet) {
+                        $wallet->sched_active = true;
+                        $wallet->save();
                     } else {
-                        $this->info("no delegate in DB, scheduler cannot be activated");                        
+                        $this->info("the wallet_id $wallet_id does not exist");                        
                     }
                 } else {
                     $this->info("no delegate table exist, scheduler cannot be activated");
                 }                
                 break;
             case "disable_sched":
+                //provide wallet_id
+                $wallet_id = $this->ask('provide wallet id : ');
+			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $delegate = DelegateDb::first();
-                    if ($delegate) {
-                        $delegate->sched_active = false;
-                        $delegate->save();
+                    $wallet = DelegateDb::where('wallet_id',$wallet_id)->get();
+                    if ($wallet) {
+                        $wallet->sched_active = false;
+                        $w->save();
                     } else {
-                        $this->info("no delegate in DB, scheduler cannot be disabled");                        
+                        $this->info("the wallet_id $wallet_id does not exist");                        
                     }
                 } else {
                     $this->info("no delegate table exist, scheduler cannot be disabled");
                 }                
                 break;
             case "change_sched":
+                $wallet_id = $this->ask('provide wallet id : ');
+			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
-                    $delegate = DelegateDb::first();
-                    if ($delegate) {
+                    $wallet = DelegateDb::where('wallet_id',$wallet_id)->get();
+                    if ($wallet) {
                         // get current schedule frequency 
-                        $current_sched_freq = $delegate->sched_freq;
+                        $current_sched_freq = $wallet->sched_freq;
                         $this->info("current schedule frequency : " . $current_sched_freq);
                         $quit=1;
                         while (1 == 1) {
@@ -171,10 +181,10 @@ class Admin extends Command
                             }
                             $this->info("please provide a value between 1 and 24");
                         }
-                        $delegate->sched_freq = $new_sched_freq;
-                        $delegate->save();
+                        $wallet->sched_freq = $new_sched_freq;
+                        $wallet->save();
                     } else {
-                        $this->info("no delegate in DB, scheduler cannot be disabled");
+                        $this->info("the wallet id provided does not exist");
                     }
                 } else {
                     $this->info("no delegate table exist, scheduler frequency cannot be set");
