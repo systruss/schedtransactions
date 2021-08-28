@@ -101,8 +101,8 @@ class Admin extends Command
                 break;
             case "show_delegate":
                 $num_record = 0;
-                $current_page = 0;
-                $page = 0;
+                $current_page = 1;
+                $page = 1;
                 if (Schema::hasTable('delegate_dbs')) {
                     if (DelegateDb::count() > 0) {
                         foreach (DelegateDb::all() as $wallet) {
