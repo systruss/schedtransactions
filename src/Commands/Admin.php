@@ -150,13 +150,13 @@ class Admin extends Command
                 break;
             case "disable_sched":
                 //provide wallet_id
-                $wallet_id = $this->ask('provide wallet id : ');
+                $wallet_id = $this->ask('provide wallet id ');
 			    echo "\n";
                 if (Schema::hasTable('delegate_dbs')) {
                     $wallet = DelegateDb::where('id',$wallet_id)->first();
                     if ($wallet) {
                         $wallet->sched_active = false;
-                        $w->save();
+                        $wallet->save();
                     } else {
                         $this->info("the wallet_id $wallet_id does not exist");                        
                     }
