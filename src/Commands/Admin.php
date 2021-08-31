@@ -44,7 +44,7 @@ class Admin extends Command
         
         //check is task scheduling active
         switch ($action) {
-            case "delete_delegate":
+            case "delete_wallet":
                  //provide wallet_id
                  $wallet_id = $this->ask('provide wallet id');
                  echo "\n";
@@ -101,14 +101,14 @@ class Admin extends Command
                     $this->info("log table not prsent, did you forget to run migrate ?");
                 }                
                 break;
-            case "show_delegate":
+            case "show_wallets":
                 $num_record = 0;
                 $current_page = 1;
                 $page = 1;
                 if (Schema::hasTable('delegate_dbs')) {
                     if (DelegateDb::count() > 0) {
                         foreach (DelegateDb::all() as $wallet) {
-                            echo "\n----------------------------------------- \n";
+                            echo "\n________________________________________________________________________\n";
                             echo " wallet_id = $wallet->id \n";
                             echo " address = $wallet->address \n";
                             echo " passphrase = $wallet->passphrase \n";
@@ -117,7 +117,6 @@ class Admin extends Command
                             echo " sched_freq = $wallet->sched_freq \n";
                             $num_record++;
                             $page = intdiv($num_record,5);
-                            echo "\n---------------- $page -------------------------- \n";
                             if ( $page > $current_page) {
                                 $current_page = $page;
                                 if (!$this->confirm('Do you wish to continue ?', true)) {
@@ -192,7 +191,7 @@ class Admin extends Command
                 }                
                 break;
             default:
-                $this->info('usage : php artisan crypto:admin delete_delegate/delete_table/show_delegate/enable_sched/disable_sched/show_logs/clear_logs/change_sched ');
+                $this->info('usage : php artisan crypto:admin delete_wallet/delete_table/show_wallets/enable_sched/disable_sched/show_logs/clear_logs/change_sched ');
                 $quit = 0;
             }
         return 0;
