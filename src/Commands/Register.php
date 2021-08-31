@@ -86,13 +86,13 @@ class Register extends Command
 				$wallet = fgets($walletsfile);
 				if (!empty($wallet)) {
 					echo date('d-m-y h:i:s');
-					echo " : _______________________________________________________________";
+					echo " : ____________________________________________________________________________ \n";
 					echo " registering : $wallet \n";
 					list($net_value,$pass_value) = explode('-',$wallet);
 					$network = trim($net_value);
 					$passphrase = trim($pass_value);
 					echo date('d-m-y h:i:s');
-					echo " : network = $network      passphrase = $passphrase \n";
+					$this->info(" : network = $network      passphrase = $passphrase \n");
 					//register delegate 
 					$delegate = new Delegate();
 					$success = $delegate->register($passphrase,$network);
@@ -100,8 +100,7 @@ class Register extends Command
 					if (!$success) 
 					{
 						echo date('d-m-y h:i:s');
-						$this->info(" : error while registering wallet \n");
-						return false;
+						$this->info(" : error while registering this wallet \n");
 					}
 				}
 			}	
