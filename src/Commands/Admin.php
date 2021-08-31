@@ -117,6 +117,7 @@ class Admin extends Command
                             echo " sched_freq = $wallet->sched_freq \n";
                             $num_record++;
                             $page = $num_record % 5;
+                            echo "\n---------------- $page -------------------------- \n";
                             if ( $page > $current_page) {
                                 $current_page = $page;
                                 if (!$this->confirm('Do you wish to continue ?', true)) {
