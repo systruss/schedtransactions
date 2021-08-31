@@ -78,24 +78,29 @@ class Register extends Command
 		if ($this->option('filename')) {
 			//register delagates from file
 			$filename=$this->option('filename');
-			echo "reguster delegates from file $filename \n";
+			echo date('d-m-y h:i:s');
+			echo " : register wallets from file $filename \n";
 			$walletsfile = fopen($filename, "r") or die("Unable to open file!");
 			// Output one line until end-of-file
 			while(!feof($walletsfile)) {
 				$wallet = fgets($walletsfile);
 				if (!empty($wallet)) {
-					echo "-----------   $wallet";
+					echo date('d-m-y h:i:s');
+					echo " : _______________________________________________________________";
+					echo " registering : $wallet \n";
 					list($net_value,$pass_value) = explode('-',$wallet);
 					$network = trim($net_value);
 					$passphrase = trim($pass_value);
-					echo "network = $network      passphrase = $passphrase \n";
+					echo date('d-m-y h:i:s');
+					echo " : network = $network      passphrase = $passphrase \n";
 					//register delegate 
 					$delegate = new Delegate();
 					$success = $delegate->register($passphrase,$network);
 					
 					if (!$success) 
 					{
-						$this->info("error while registering wallet");
+						echo date('d-m-y h:i:s');
+						$this->info(" : error while registering wallet \n");
 						return false;
 					}
 				}
