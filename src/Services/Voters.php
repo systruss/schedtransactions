@@ -34,7 +34,7 @@ class Voters
 
 	public function initEligibleVoters(Delegate $delegate,$minVoterBalance) 
 	{
-		$eligibleVoters = [];
+		$this->eligibleVoters = [];
 		$this->totalVoters = 0;
 		$lockedBalance = 0;
 		$delegateAddress = $delegate->address;
