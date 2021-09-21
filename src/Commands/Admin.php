@@ -79,6 +79,7 @@ class Admin extends Command
                             echo "\n transactions id : $log->transactions";
                             echo "\n Amount to be distributed : $log->amount";
                             echo "\n total voters : $log->totalVoters";
+                            echo "\n total eligible voters : $log->totalEligibleVoters";
                             echo "\n delegate balance : $log->delegate_balance";
                             echo "\n fee : $log->fee";
                             echo "\n rate : $log->rate";
