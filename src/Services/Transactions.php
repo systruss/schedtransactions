@@ -48,7 +48,7 @@ class Transactions
 	public $errMesg;
 	public $transaction_result;
 
-	public function getFee($network,$totalVoters)
+	public function getFee($network,$totalVoters, $multiPaymentLimit)
 	{	
 		$fee = '';
 		$totalFee = 0;
@@ -68,11 +68,11 @@ class Transactions
 				default:
 					echo "\n network provided is not infi or edge \n";
 			}
-			// total fee = rounded(number of voters + 1  / 300) * minimum fee according network
+			// total fee = rounded(number of voters + 1  / $multiPaymentLimit) * minimum fee according network
 			if ($totalVoters > 0) 
 			{
 				$totalVoters = $totalVoters +1; //add beneficary
-				$FeeQuotient =  floor($totalVoters/300)+1;
+				$FeeQuotient =  floor($totalVoters/$multiPaymentLimit)+1;
 				$totalFee = $FeeQuotient * $fee;
 			} else 
 			{
@@ -105,7 +105,7 @@ class Transactions
 			// delegate rank is between 1 and 25 and balance as required
 
             // get fee
-            $totalFee = $this->getFee($delegate->network, $voters->totalVoters);
+            $totalFee = $this->getFee($delegate->network, $voters->totalVoters, $beneficary->multiPaymentLimit);
 			echo "\n totalFee   = $totalFee \n";
 			if ($totalFee > $delegate->balance) {
 				$this->buildSucceed = false;
