@@ -140,8 +140,9 @@ class PerformTransactions extends Command
         $cryptoLog->delegate_balance = $delegate->balance;
         $cryptoLog->fee = $transactions->fee;
         $cryptoLog->amount = $transactions->amountToBeDistributed;
-        $cryptoLog->totalVoters = $voters->nbEligibleVoters;
-        $cryptoLog->transactions = 0;
+        $cryptoLog->totalVoters = $voters->totalVoters;
+        $cryptoLog->totalEligibleVoters = $voters->nbEligibleVoters;
+        $cryptoLog->transactions = count($transactions->transactions);
         $cryptoLog->hourCount = 0;
         $cryptoLog->succeed = false;
 
