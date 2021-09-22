@@ -105,7 +105,7 @@ class Transactions
 			// delegate rank is between 1 and 25 and balance as required
 
             // get fee
-            $totalFee = $this->getFee($delegate->network, $voters->totalVoters, $beneficary->multiPaymentLimit);
+            $totalFee = $this->getFee($delegate->network, $voters->nbEligibleVoters, $beneficary->multiPaymentLimit);
 			echo "\n totalFee   = $totalFee \n";
 			if ($totalFee > $delegate->balance) {
 				$this->buildSucceed = false;
